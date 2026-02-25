@@ -4,6 +4,7 @@
   "description": "A production-ready immersive interactive novel engine optimized for Cloudflare Pages.",
   "type": "module",
   "scripts": {
+    "prebuild": "mkdir -p public/novels && cp -r novels/* public/novels/ && cp novels_list.json public/",
     "dev": "vite",
     "build": "npm run validate && vite build",
     "validate": "node tools/validate-novels.js",
@@ -30,3 +31,4 @@
     "vite": "^5.0.10"
   }
 }
+
