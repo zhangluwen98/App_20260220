@@ -36,9 +36,9 @@ export default function store() {
             });
         },
 
-        async loadLibrary() {
+        async loadLibrary(filePath = '/novels_list.json') {
             try {
-                const res = await fetch('/novels_list.json');
+                const res = await fetch(filePath);
                 if (!res.ok) throw new Error('Failed to load library');
                 this.novels = await res.json();
                 return true;
@@ -50,7 +50,7 @@ export default function store() {
 
         async loadNovel(id) {
             try {
-                const res = await fetch(`/novels/${id}.json`);
+                const res = await fetch(`/${id}.json`);
                 if (!res.ok) throw new Error('Failed to load novel');
                 this.currentNovel = await res.json();
 
