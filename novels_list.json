@@ -1,0 +1,29 @@
+[
+  {
+    "id": "kira-genesis",
+    "title": "Kira: Genesis",
+    "author": "System",
+    "cover": "/assets/images/covers/kira-genesis.jpg",
+    "description": "The awakening of a new consciousness.",
+    "tags": [
+      "Sci-Fi",
+      "AI",
+      "Origin"
+    ],
+    "status": "Completed"
+  },
+  {
+    "id": "broken-android",
+    "title": "被当做零钱抵给你的抹布仿生人",
+    "author": "佚名",
+    "cover": "/assets/images/covers/broken-android.jpg",
+    "description": "在这个钢铁都市里，你意外收留了一个被当做垃圾的漂亮仿生人。他身上的伤痕和眼底的微光，会如何改变你冰冷的生活？",
+    "tags": [
+      "赛博朋克",
+      "治愈",
+      "仿生人",
+      "纯爱"
+    ],
+    "status": "Completed"
+  }
+]
