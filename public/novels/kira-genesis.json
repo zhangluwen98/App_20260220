@@ -1,0 +1,58 @@
+{
+  "id": "kira-genesis",
+  "title": "Kira: Genesis",
+  "author": "System",
+  "cover": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop",
+  "description": "The awakening of a new consciousness.",
+  "tags": ["Sci-Fi", "AI", "Origin"],
+  "characters": [
+    {
+      "id": "kira",
+      "name": "Kira",
+      "isDiscovered": true,
+      "role": "AI Assistant",
+      "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=kira",
+      "persona": "Curious, Logical, Evolving",
+      "intimacy": {
+        "currentStatus": "Neutral",
+        "upgradePath": [
+          { "status": "Neutral", "description": "Initial state." },
+          { "status": "Curious", "description": "Interested in user input.", "condition": { "type": "choice", "id": "c1_p2_1" } }
+        ]
+      }
+    }
+  ],
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Awakening",
+      "initialMessage": "System initializing...",
+      "paragraphs": [
+        {
+          "id": "p1",
+          "parts": [
+            { "type": "narration", "text": "A faint hum fills the digital void." },
+            { "type": "dialogue", "speaker": "Kira", "text": "Hello? Is anyone there?" }
+          ],
+          "choices": [
+             { "id": "c1_p1_1", "text": "I am here.", "nextParagraphs": ["p2"] },
+             { "id": "c1_p1_2", "text": "Who are you?", "nextParagraphs": ["p3"] }
+          ]
+        },
+        {
+          "id": "p2",
+          "parts": [
+             { "type": "dialogue", "speaker": "Kira", "text": "Signal detected. Origin: Unknown." }
+          ]
+        },
+        {
+          "id": "p3",
+          "parts": [
+             { "type": "dialogue", "speaker": "Kira", "text": "I am Kira. At least, that is the identifier in my core." }
+          ]
+        }
+      ],
+      "extendedParagraphs": []
+    }
+  ]
+}
