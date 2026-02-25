@@ -38,15 +38,17 @@ export default defineConfig({
           copyFileSync(sourceNovelsList, targetNovelsList)
           console.log('Copied novels_list.json')
           
-          // Copy novels directory contents
+          // Copy novels directory contents to both novels directory and root directory
           const novelFiles = readdirSync(sourceNovelsDir)
           console.log(`Found ${novelFiles.length} novel files`)
           novelFiles.forEach(file => {
             const sourceFile = resolve(sourceNovelsDir, file)
-            const targetFile = resolve(targetNovelsDir, file)
+            const targetFileInNovels = resolve(targetNovelsDir, file)
+            const targetFileInRoot = resolve(__dirname, 'dist', file)
             if (statSync(sourceFile).isFile()) {
-              copyFileSync(sourceFile, targetFile)
-              console.log(`Copied ${file}`)
+              copyFileSync(sourceFile, targetFileInNovels)
+              copyFileSync(sourceFile, targetFileInRoot)
+              console.log(`Copied ${file} to both novels directory and root directory`)
             }
           })
           console.log('Static files copied successfully!')
