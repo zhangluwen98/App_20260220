@@ -1,6 +1,13 @@
 name = "kira"
 compatibility_date = "2023-12-01"
-pages_build_output_dir = "public"
+pages_build_output_dir = "dist"
 
 [vars]
 DEBUG = "false"
+
+[assets]
+directory = "./dist"
+
+[build]
+cwd = "."
+

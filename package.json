@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "npm run validate && vite build",
     "validate": "node tools/validate-novels.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "images:download": "node tools/download-images.js download",
+    "images:generate": "node tools/download-images.js generate"
   },
   "keywords": [
     "interactive-fiction",

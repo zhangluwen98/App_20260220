@@ -70,6 +70,20 @@ function validateNovelData(novel, id) {
         throw new Error('Novel missing chapters array.');
     }
 
+    // 构建角色映射表
+    const characterMap = new Map();
+    if (novel.characters && Array.isArray(novel.characters)) {
+        novel.characters.forEach(char => {
+            if (!char.id) {
+                throw new Error('Character missing ID.');
+            }
+            if (!char.name) {
+                throw new Error(`Character with ID ${char.id} missing name.`);
+            }
+            characterMap.set(char.name, char.id);
+        });
+    }
+
     const paragraphIds = new Set();
     const allParagraphs = [];
 
@@ -91,9 +105,33 @@ function validateNovelData(novel, id) {
         }
     });
 
-    // Validate choices nextParagraphs
+    // 验证所有对话中的角色都在 characters 中定义
+    const speakers = new Set();
     allParagraphs.forEach(p => {
-        if (p.choices) {
+        if (p.parts && Array.isArray(p.parts)) {
+            p.parts.forEach(part => {
+                if (part.type === 'dialogue' && part.speaker) {
+                    // "我" 是主角，不需要在 characters 中定义
+                    if (part.speaker !== '我') {
+                        speakers.add(part.speaker);
+                    }
+                }
+            });
+        }
+    });
+
+    speakers.forEach(speakerName => {
+        if (!characterMap.has(speakerName)) {
+            throw new Error(
+                `Speaker "${speakerName}" appears in dialogue but is not defined in characters array. ` +
+                `Please add this character to the characters section.`
+            );
+        }
+    });
+
+    // Validate choices nextParagraphs and Dead Ends
+    allParagraphs.forEach(p => {
+        if (p.choices && p.choices.length > 0) {
             p.choices.forEach(c => {
                 if (!c.nextParagraphs || !Array.isArray(c.nextParagraphs)) {
                      throw new Error(`Choice ${c.id} missing nextParagraphs array.`);
@@ -104,6 +142,12 @@ function validateNovelData(novel, id) {
                     }
                 });
             });
+        } else {
+            // Check for Dead End (no choices)
+            // It's allowed if it's the last paragraph of a linear flow or explicitly marked end
+            // But ideally every paragraph should have a way out unless it's "THE END"
+            // For now, we just warn if it looks like a dead end in the middle of nowhere
+            // Or maybe we can enforce an "autoNext" or explicit "END" tag in v2 protocol
         }
     });
 }
