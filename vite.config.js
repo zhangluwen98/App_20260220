@@ -51,6 +51,28 @@ export default defineConfig({
               console.log(`Copied ${file} to both novels directory and root directory`)
             }
           })
+          
+          // Copy assets directory
+          const sourceAssetsDir = resolve(__dirname, 'public/assets')
+          const targetAssetsDir = resolve(__dirname, 'dist/assets')
+          if (statSync(sourceAssetsDir).isDirectory()) {
+            const copyDirectory = (src, dest) => {
+              mkdirSync(dest, { recursive: true })
+              const files = readdirSync(src)
+              files.forEach(file => {
+                const srcPath = resolve(src, file)
+                const destPath = resolve(dest, file)
+                if (statSync(srcPath).isDirectory()) {
+                  copyDirectory(srcPath, destPath)
+                } else {
+                  copyFileSync(srcPath, destPath)
+                }
+              })
+            }
+            copyDirectory(sourceAssetsDir, targetAssetsDir)
+            console.log('Copied assets directory successfully!')
+          }
+          
           console.log('Static files copied successfully!')
         } catch (error) {
           console.error('Error copying static files:', error)
