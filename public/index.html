@@ -12,7 +12,72 @@
         [x-cloak] { display: none !important; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
+        
+        /* 平滑过渡动画 */
+        .message-container {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        
+        .message-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 平滑过渡动画 */
+        .message-container {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        
+        .message-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 固定对话框最大宽度，避免布局跳动 */
+        .message-bubble {
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* 对话内容更新时的平滑过渡 */
+        .message-text {
+            transition: all 0.3s ease;
+        }
+        
+        /* 打字指示器容器，固定高度避免布局跳动 */
+        .typing-indicator-container {
+            height: 40px;
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        /* 平滑滚动 */
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        
+        /* 骨架屏效果 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        </style>
 </head>
 <body class="bg-gray-50 h-screen w-full flex flex-col overflow-hidden text-gray-900" x-data="app()">
     
@@ -56,11 +121,11 @@
             <!-- Chat Container -->
             <div id="chat-container" class="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar scroll-smooth">
                 <template x-for="msg in messages" :key="msg.id">
-                    <div class="animate-fade-in-up">
+                    <div class="message-container visible" :data-message-id="msg.id">
                         <!-- Narration -->
                         <template x-if="msg.type === 'narration'">
                             <div class="flex justify-center my-4">
-                                <div class="bg-gray-200/50 text-gray-500 text-xs px-4 py-1 rounded-full" x-text="msg.text"></div>
+                                <div class="bg-gray-200/50 text-gray-500 text-xs px-4 py-1 rounded-full message-bubble" x-text="msg.text"></div>
                             </div>
                         </template>
                         
@@ -68,15 +133,17 @@
                         <template x-if="msg.type === 'dialogue'">
                             <div :class="msg.isUser ? 'flex flex-row-reverse items-end gap-2' : 'flex items-end gap-2'">
                                 <template x-if="!msg.isUser">
-                                    <img :src="getAvatar(msg.speaker)" class="w-8 h-8 rounded-full bg-gray-300 object-cover shadow-sm mb-1">
+                                    <img :src="getAvatar(msg.speaker)" class="w-8 h-8 rounded-full bg-gray-300 object-cover shadow-sm mb-1 transition-opacity duration-300">
                                 </template>
                                 
                                 <div class="flex flex-col gap-1 max-w-[75%]">
                                     <template x-if="!msg.isUser">
-                                        <span class="text-[10px] text-gray-400 ml-1" x-text="msg.speaker"></span>
+                                        <span class="text-[10px] text-gray-400 ml-1 transition-opacity duration-300" x-text="msg.speaker"></span>
                                     </template>
                                     <div :class="msg.isUser ? 'bg-blue-500 text-white rounded-2xl rounded-br-none px-4 py-2 shadow-md' : 'bg-white text-gray-800 rounded-2xl rounded-bl-none px-4 py-2 shadow-sm border border-gray-100'" 
-                                         class="text-sm leading-relaxed" x-text="msg.text"></div>
+                                         class="text-sm leading-relaxed message-bubble">
+                                        <span class="message-text" x-text="msg.text"></span>
+                                    </div>
                                 </div>
                             </div>
                         </template>
@@ -84,19 +151,18 @@
                 </template>
                 
                 <!-- Typing Indicator -->
-                <div x-show="isTyping" class="flex items-end gap-2 ml-1" x-transition>
-                     <div class="w-8 h-8 rounded-full bg-gray-200 animate-pulse"></div>
-                     <div class="bg-white px-4 py-3 rounded-2xl rounded-bl-none shadow-sm border border-gray-100 flex gap-1">
-                         <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
-                         <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-75"></span>
-                         <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce delay-150"></span>
+                <div x-show="isTyping" class="typing-indicator-container flex items-end gap-2 ml-1" x-transition>
+                     <img :src="getAvatar(currentSpeaker)" class="w-8 h-8 rounded-full bg-gray-300 object-cover shadow-sm mb-1">
+                     <div class="flex flex-col gap-1 max-w-[75%]">
+                         <span class="text-[10px] text-gray-400 ml-1" x-text="currentSpeaker"></span>
+                         <div class="bg-white text-gray-800 rounded-2xl rounded-bl-none px-4 py-2 shadow-sm border border-gray-100 text-sm">...</div>
                      </div>
                 </div>
 
                 <!-- Choices -->
-                <div x-show="currentChoices.length > 0 && !isTyping" class="flex flex-col gap-2 mt-4 px-4 pb-8">
+                <div x-show="currentChoices.length > 0 && !isTyping" class="choices-container visible flex flex-col gap-2 mt-4 px-4 pb-8">
                     <template x-for="choice in currentChoices" :key="choice.id">
-                        <button @click="handleChoice(choice)" class="w-full bg-white border border-blue-100 text-blue-600 font-medium py-3 rounded-xl shadow-sm active:scale-95 transition-transform hover:bg-blue-50">
+                        <button @click="handleChoice(choice)" class="w-full bg-white border border-blue-100 text-blue-600 font-medium py-3 rounded-xl shadow-sm active:scale-95 transition-all duration-200 hover:bg-blue-50">
                             <span x-text="choice.text"></span>
                         </button>
                     </template>
@@ -126,6 +192,7 @@
                 isTyping: false,
                 currentChoices: [],
                 paragraphQueue: [],
+                currentSpeaker: '',
                 
                 async init() {
                     try {
@@ -179,28 +246,54 @@
                         // End of paragraph parts, show choices if any
                         if (this.pendingChoices.length > 0) {
                             this.currentChoices = this.pendingChoices;
-                            this.scrollToBottom();
+                            // Trigger choices container animation
+                            this.$nextTick(() => {
+                                const choicesContainer = document.querySelector('.choices-container');
+                                if (choicesContainer) {
+                                    choicesContainer.classList.remove('visible');
+                                    void choicesContainer.offsetWidth; // Trigger reflow
+                                    choicesContainer.classList.add('visible');
+                                }
+                                this.scrollToBottom();
+                            });
                         }
                         return;
                     }
 
                     const part = this.paragraphQueue.shift();
-                    this.isTyping = true;
-                    this.scrollToBottom();
+                    
+                    // Only show typing indicator for dialogue, not for narration
+                    if (part.type === 'dialogue') {
+                        this.currentSpeaker = part.speaker;
+                        this.isTyping = true;
+                        this.scrollToBottom();
+                    }
 
                     // Simulate typing delay based on text length
-                    const delay = Math.min(1500, Math.max(800, part.text.length * 30));
+                    const delay = part.type === 'narration' ? 300 : Math.min(1500, Math.max(800, part.text.length * 30));
                     
                     setTimeout(() => {
                         this.isTyping = false;
-                        this.messages.push({
+                        
+                        // Add new message
+                        const newMessage = {
                             id: Date.now(),
                             type: part.type,
                             text: part.text,
                             speaker: part.speaker,
                             isUser: false // Narrative/NPC is never user for now
+                        };
+                        
+                        // Add message to array
+                        this.messages.push(newMessage);
+                        
+                        // Scroll to bottom without animation to avoid layout issues
+                        this.$nextTick(() => {
+                            const container = document.getElementById('chat-container');
+                            if (container) {
+                                container.scrollTop = container.scrollHeight;
+                            }
                         });
-                        this.scrollToBottom();
                         
                         // Next part
                         setTimeout(() => this.processQueue(), 500);
@@ -208,15 +301,28 @@
                 },
 
                 handleChoice(choice) {
-                    this.currentChoices = [];
+                    // Hide choices with animation
+                    const choicesContainer = document.querySelector('.choices-container');
+                    if (choicesContainer) {
+                        choicesContainer.classList.remove('visible');
+                    }
+                    
                     // Add user message
-                    this.messages.push({
+                    const userMessage = {
                         id: Date.now(),
                         type: 'dialogue',
                         text: choice.text,
                         isUser: true
+                    };
+                    this.messages.push(userMessage);
+                    
+                    // Scroll to bottom without animation to avoid layout issues
+                    this.$nextTick(() => {
+                        const container = document.getElementById('chat-container');
+                        if (container) {
+                            container.scrollTop = container.scrollHeight;
+                        }
                     });
-                    this.scrollToBottom();
 
                     // Find next paragraph
                     // For simplicity, take first nextParagraph
@@ -224,9 +330,13 @@
                     const nextPara = this.findParagraph(nextId);
                     
                     if (nextPara) {
-                         setTimeout(() => this.processParagraph(nextPara), 800);
+                        setTimeout(() => {
+                            this.currentChoices = [];
+                            this.processParagraph(nextPara);
+                        }, 800);
                     } else {
                         console.warn('Next paragraph not found:', nextId);
+                        this.currentChoices = [];
                     }
                 },
 
@@ -244,7 +354,7 @@
                 scrollToBottom() {
                     this.$nextTick(() => {
                         const container = document.getElementById('chat-container');
-                        if (container) container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+                        if (container) container.scrollTop = container.scrollHeight;
                     });
                 }
             }))
