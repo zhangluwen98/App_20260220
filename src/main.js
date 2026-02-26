@@ -1,6 +1,6 @@
 import Alpine from 'alpinejs';
 import { typeWriter } from './utils/type-writer';
-import store from './store';
+import store from './store/index';
 
 // Register global store
 Alpine.store('app', store());

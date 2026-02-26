@@ -10,7 +10,8 @@
     "validate": "node tools/validate-novels.js",
     "preview": "vite preview",
     "images:download": "node tools/download-images.js download",
-    "images:generate": "node tools/download-images.js generate"
+    "images:generate": "node tools/download-images.js generate",
+    "test": "node test/index.js"
   },
   "keywords": [
     "interactive-fiction",

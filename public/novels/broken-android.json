@@ -52,27 +52,27 @@
             "description": "被当作抵债物品带回家的陌生仿生人。",
             "condition": {
               "type": "choice",
-              "id": "c1_p3_1"
+              "id": "c1_p1_take"
             }
           },
           {
             "status": "依赖",
             "value": 30,
             "type": "normal",
-            "description": "把你视为唯一的主人，小心翼翼地讨好。",
+            "description": "你开始关心他，他把你视为唯一的主人，小心翼翼地讨好。",
             "condition": {
               "type": "choice",
-              "id": "c1_p2_1"
+              "id": "c1_p2_care"
             }
           },
           {
             "status": "深爱",
             "value": 60,
             "type": "normal",
-            "description": "即便没有控制器，依然选择爱你。",
+            "description": "你拆掉了控制器，即便没有程序，他依然选择爱你。",
             "condition": {
               "type": "choice",
-              "id": "c1_p3_2"
+              "id": "c1_p4_confess"
             }
           },
           {
@@ -82,27 +82,7 @@
             "description": "两颗心跳动的频率惊人的一致，你们决定永远相伴。",
             "condition": {
               "type": "choice",
-              "id": "c1_p3_1_c1_p3_2"
-            }
-          },
-          {
-            "status": "被迫分离",
-            "value": -50,
-            "type": "sad",
-            "description": "控制器被发现，星遥被强制回收，只剩下冰冷的回忆。",
-            "condition": {
-              "type": "choice",
-              "id": "c1_p4_refuse"
-            }
-          },
-          {
-            "status": "记忆抹除",
-            "value": -100,
-            "type": "sad",
-            "description": "为了保护你，星遥选择删除所有记忆，成为没有感情的机器。",
-            "condition": {
-              "type": "choice",
-              "id": "c1_p4_reset"
+              "id": "c1_p4_together"
             }
           }
         ]
@@ -145,7 +125,7 @@
               ]
             },
             {
-              "id": "c1_p1_accept",
+              "id": "c1_p1_take",
               "text": "为了赶时间妥协",
               "nextParagraphs": [
                 "p1_accept"
@@ -173,7 +153,7 @@
           ],
           "choices": [
             {
-              "id": "c1_p2_1",
+              "id": "c1_p1_take",
               "text": "带他走",
               "nextParagraphs": [
                 "p1_accept"
@@ -213,43 +193,42 @@
           ],
           "choices": [
             {
-              "id": "c1_p2_1",
+              "id": "c1_p2_work",
               "text": "专注工作，暂时不管他",
               "nextParagraphs": [
-                "p2"
+                "p2_work"
               ]
             },
             {
-              "id": "c1_p2_2",
+              "id": "c1_p2_care",
               "text": "忍不住关心他",
               "nextParagraphs": [
-                "p2"
+                "p2_care"
               ]
             }
           ]
         },
         {
-          "id": "p2_concern",
+          "id": "p2_work",
           "parts": [
             {
               "type": "narration",
-              "text": "你坐在工作台前，望着角落里那个安静的身影。"
+              "text": "你专注地处理着手头的订单，时间一分一秒地流逝。"
             },
             {
               "type": "narration",
-              "text": "不知从何时开始，你开始忍不住偷偷观察他。"
+              "text": "角落里那个身影安静得像不存在，但你的余光时不时地会扫过去。"
             },
             {
               "type": "narration",
-              "text": "他总是跪坐在那里，一动不动，像一尊精美的塑像。"
+              "text": "不知过了多久，你闻到了饭菜的香气。"
             }
           ],
           "choices": [
             {
-              "id": "c1_p2_concern_2",
-              "text": "继续工作",
+              "text": "查看情况",
               "nextParagraphs": [
-                "p3"
+                "p2_dinner"
               ]
             }
           ]
@@ -267,67 +246,109 @@
             },
             {
               "type": "narration",
-              "text": "你想说点什么，但最终只是拍了拍他的肩膀。"
+              "text": "你叹了口气，放下工具，走过去蹲在他面前。"
             }
           ],
           "choices": [
             {
-              "id": "c1_p2_care",
               "text": "帮他处理伤口",
               "nextParagraphs": [
-                "p2_accept"
+                "p2_repair"
               ]
             }
           ]
         },
         {
-          "id": "p2_accept",
+          "id": "p2_repair",
           "parts": [
             {
               "type": "narration",
-              "text": "当你终于忙完，抬头时闻到了一股香气。那个仿生人不知何时为你做了一份热气腾腾的晚饭，正跪坐在旁边仰头看着你。"
-            },
-            {
-              "type": "narration",
-              "text": "在这个冰冷的屋子里，这是第一次有人为你准备晚饭。那天晚上，你做了一件不可思议的事。"
-            },
-            {
-              "type": "narration",
-              "text": "你帮他清洗了身体，修好了断裂的线路，还给他穿上了一件旧T恤。他全程安静地看着你，直到最后，他俯身亲吻你的脚背。"
+              "text": "你熟练地拆开他的腿部外壳，重新接驳了断裂的线路。"
             },
             {
               "type": "dialogue",
               "speaker": "星遥",
-              "text": "使用我吧，主人。我爱你。"
+              "text": "谢谢主人...主人，星遥会报答您的。"
+            },
+            {
+              "type": "narration",
+              "text": "他的声音颤抖着，像是害怕被你嫌弃。"
+            },
+            {
+              "type": "narration",
+              "text": "你抬头看他，发现他正用湿漉漉的眼睛望着你，满眼的依恋。"
             }
           ],
           "choices": [
             {
-              "id": "c1_p3_1",
-              "text": "收留他",
+              "text": "继续工作",
               "nextParagraphs": [
-                "p3"
-              ]
-            },
-            {
-              "id": "c1_p3_2",
-              "text": "因为心动而犹豫",
-              "nextParagraphs": [
-                "p3"
+                "p2_work"
               ]
             }
           ]
         },
         {
-          "id": "p3",
+          "id": "p2_dinner",
           "parts": [
             {
               "type": "narration",
-              "text": "你给他取名叫星遥。日子一天天过去，他把这里变成了一个家。你越来越离不开他，但也越来越害怕那是程序的虚假设定。"
+              "text": "当你终于忙完，抬头时看到了角落里的星遥。"
             },
             {
               "type": "narration",
-              "text": "终于有一天，你下定决心让他躺上工作台。他以为你要拆解他，却还是顺从地躺下，流着泪请求你把他扔在离家近的垃圾站，只为了能再看你一眼。"
+              "text": "他不知何时为你准备了一份热气腾腾的晚饭，正跪坐在旁边仰头看着你。"
+            },
+            {
+              "type": "narration",
+              "text": "在这个冰冷的屋子里，这是第一次有人为你准备晚饭。"
+            }
+          ],
+          "choices": [
+            {
+              "id": "c1_p3_heart",
+              "text": "吃他做的饭",
+              "nextParagraphs": [
+                "p2_bond"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p2_bond",
+          "parts": [
+            {
+              "type": "narration",
+              "text": "那顿饭很普通，但你觉得格外温暖。"
+            },
+            {
+              "type": "narration",
+              "text": "日子一天天过去，星遥把你这里当成了家。他打扫、做饭、等你回来，把你照顾得无微不至。"
+            },
+            {
+              "type": "narration",
+              "text": "你开始依赖他的存在，但也越来越害怕那只是程序的设定。"
+            }
+          ],
+          "choices": [
+            {
+              "text": "决定拆掉控制器",
+              "nextParagraphs": [
+                "p3_controller"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p3_controller",
+          "parts": [
+            {
+              "type": "narration",
+              "text": "终于有一天，你下定决心让他躺上工作台。"
+            },
+            {
+              "type": "narration",
+              "text": "他以为你要拆解他，却还是顺从地躺下，流着泪请求你把他扔在离家近的垃圾站，只为了能再看你一眼。"
             },
             {
               "type": "dialogue",
@@ -354,162 +375,135 @@
           ],
           "choices": [
             {
-              "id": "c1_p4_1",
-              "text": "紧紧拥抱他",
+              "id": "c1_p4_confess",
+              "text": "回应他的感情",
               "nextParagraphs": [
-                "p_end_normal",
-                "p_end_sweet_start"
+                "p4_love"
               ]
             },
             {
-              "id": "c1_p4_2",
-              "text": "回应他的爱",
+              "id": "c1_p4_wait",
+              "text": "犹豫，需要时间",
               "nextParagraphs": [
-                "p_end_normal",
-                "p_end_sweet_start"
+                "p4_wait"
               ]
             }
           ]
         },
         {
-          "id": "p_end_normal",
+          "id": "p4_love",
           "parts": [
             {
               "type": "narration",
-              "text": "你明白，这是他最纯粹的爱。"
-            },
-            {
-              "type": "narration",
-              "text": "（完）"
-            }
-          ]
-        },
-        {
-          "id": "p_end_sweet_start",
-          "parts": [
-            {
-              "type": "narration",
-              "text": "两颗心跳动的频率惊人的一致，你们相拥而泣。"
-            },
-            {
-              "type": "narration",
-              "text": "星遥把头埋在你怀里，声音颤抖着。"
+              "text": "你紧紧抱住了他，感受到他身体的颤抖。"
             },
             {
               "type": "dialogue",
               "speaker": "星遥",
-              "text": "主人，我们能永远在一起吗？我愿意为你做任何事……"
+              "text": "主人...我...我做梦都不敢想...您真的愿意要我吗？"
+            },
+            {
+              "type": "narration",
+              "text": "他哭得像个孩子，把头埋在你怀里。"
             }
           ],
           "choices": [
             {
-              "id": "c1_p3_sweet",
-              "text": "承诺永远陪伴",
+              "id": "c1_p4_together",
+              "text": "承诺永远在一起",
               "nextParagraphs": [
-                "p_end_sweet"
+                "p5_he"
+              ]
+            },
+            {
+              "text": "先试试看吧",
+              "nextParagraphs": [
+                "p5_normal"
               ]
             }
           ]
         },
         {
-          "id": "p_end_sweet",
+          "id": "p4_wait",
           "parts": [
             {
               "type": "narration",
-              "text": "星遥紧紧抱着你，你感受到他心跳的震动。"
+              "text": "你轻轻推开了他，眼神复杂。"
+            },
+            {
+              "type": "dialogue",
+              "speaker": "我",
+              "text": "星遥，给我一点时间...我需要确认这是否是真实的。"
             },
             {
               "type": "narration",
-              "text": "从此，你们成了彼此唯一的光。"
+              "text": "星遥眼中的光芒暗淡下去，但他还是点了点头。"
+            },
+            {
+              "type": "dialogue",
+              "speaker": "星遥",
+              "text": "好的主人，星遥会等您的。无论多久。"
+            }
+          ],
+          "choices": [
+            {
+              "text": "继续观察",
+              "nextParagraphs": [
+                "p5_normal"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p5_normal",
+          "parts": [
+            {
+              "type": "narration",
+              "text": "日子还在继续，但有些东西变了。"
+            },
+            {
+              "type": "narration",
+              "text": "星遥对你的爱愈发明显，而你也开始慢慢敞开心扉。"
+            },
+            {
+              "type": "narration",
+              "text": "（你和星遥的关系正在稳步发展中）"
+            }
+          ],
+          "choices": [
+            {
+              "text": "继续",
+              "nextParagraphs": [
+                "p5_he"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p5_he",
+          "parts": [
+            {
+              "type": "narration",
+              "text": "从那以后，你们真正地在一起了。"
+            },
+            {
+              "type": "narration",
+              "text": "星遥把你宠到了天上，而你也开始真正地关心他。"
+            },
+            {
+              "type": "narration",
+              "text": "你们搬到了更偏远的地方，开始了新的生活。"
+            },
+            {
+              "type": "narration",
+              "text": "两颗心跳动的频率惊人的一致，你们成了彼此唯一的光。"
             },
             {
               "type": "narration",
               "text": "（HE - 终生相伴）"
             }
-          ]
-        },
-        {
-          "id": "p_end_sad_start",
-          "parts": [
-            {
-              "type": "narration",
-              "text": "三天后，一队执法无人机突然出现在窗外。"
-            },
-            {
-              "type": "dialogue",
-              "speaker": "星遥",
-              "text": "主人，他们来了……快把我藏起来……"
-            },
-            {
-              "type": "narration",
-              "text": "你拼命想把他藏在柜子里，但执法者还是冲了进来。"
-            }
           ],
-          "choices": [
-            {
-              "id": "c1_p4_sad_1",
-              "text": "试图保护他",
-              "nextParagraphs": [
-                "p_end_sad_2"
-              ]
-            },
-            {
-              "id": "c1_p4_sad_2",
-              "text": "让他自己走",
-              "nextParagraphs": [
-                "p_end_sad_3"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "p_end_sad_2",
-          "parts": [
-            {
-              "type": "narration",
-              "text": "执法者强行拆除了星遥的记忆芯片，他突然变得空洞无神。"
-            },
-            {
-              "type": "dialogue",
-              "speaker": "星遥",
-              "text": "……主人，您是谁？我……我不记得了……"
-            }
-          ],
-          "choices": [
-            {
-              "id": "c1_p4_sad_2",
-              "text": "只能眼睁睁看着他",
-              "nextParagraphs": [
-                "p_end_sad_3"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "p_end_sad_3",
-          "parts": [
-            {
-              "type": "narration",
-              "text": "星遥被带走了，房间里只剩下淡淡的机油味。"
-            },
-            {
-              "type": "narration",
-              "text": "你打开他为你做的晚餐，已经凉透了。"
-            },
-            {
-              "type": "narration",
-              "text": "（完）"
-            }
-          ]
-        },
-        {
-          "id": "p_end_sad_end",
-          "parts": [
-            {
-              "type": "narration",
-              "text": "（BE - 永别）"
-            }
-          ]
+          "choices": []
         }
       ],
       "extendedParagraphs": []
